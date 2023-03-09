@@ -1,0 +1,65 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://assets/images/romi/idle.png" type="Texture" id=1]
+[ext_resource path="res://assets/images/romi/jump.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/romi/m1.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/romi/m2.png" type="Texture" id=4]
+[ext_resource path="res://assets/images/romi/m3.png" type="Texture" id=5]
+[ext_resource path="res://assets/images/romi/m4.png" type="Texture" id=6]
+[ext_resource path="res://scripts/romi.gd" type="Script" id=7]
+[ext_resource path="res://scenes/LifeBar.tscn" type="PackedScene" id=8]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 15.3415, 62.7046 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ), ExtResource( 6 ) ],
+"loop": true,
+"name": "move",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "jump",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 15.5174, 63.0181 )
+
+[node name="romi" type="KinematicBody2D"]
+collision_layer = 16
+collision_mask = 9
+script = ExtResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -2.24492, 1.12246 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -3.78406, 3.21358 )
+scale = Vector2( 0.638741, 0.925959 )
+frames = SubResource( 2 )
+animation = "idle"
+
+[node name="LifeBar" parent="." instance=ExtResource( 8 )]
+margin_left = -29.3997
+margin_top = -91.7627
+margin_right = 40.6003
+margin_bottom = -78.7627
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 267
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2( -2.67267, 0.8909 )
+shape = SubResource( 3 )
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]

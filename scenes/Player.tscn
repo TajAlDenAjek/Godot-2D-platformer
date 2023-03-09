@@ -1,0 +1,122 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://assets/images/osama/idle.png" type="Texture" id=1]
+[ext_resource path="res://assets/images/osama/m1.png" type="Texture" id=2]
+[ext_resource path="res://assets/images/osama/m2.png" type="Texture" id=3]
+[ext_resource path="res://assets/images/osama/m3.png" type="Texture" id=4]
+[ext_resource path="res://assets/images/osama/m4.png" type="Texture" id=5]
+[ext_resource path="res://assets/images/osama/jump.png" type="Texture" id=6]
+[ext_resource path="res://assets/images/osama/a1.png" type="Texture" id=7]
+[ext_resource path="res://assets/images/osama/a2.png" type="Texture" id=8]
+[ext_resource path="res://scripts/Player.gd" type="Script" id=9]
+[ext_resource path="res://scenes/LifeBar.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/sounds/mp3Osama/dying.mp3" type="AudioStream" id=11]
+[ext_resource path="res://assets/sounds/mp3Osama/jump.mp3" type="AudioStream" id=12]
+[ext_resource path="res://assets/sounds/mp3Osama/movement.mp3" type="AudioStream" id=13]
+[ext_resource path="res://assets/sounds/mp3Osama/take damage.mp3" type="AudioStream" id=14]
+[ext_resource path="res://assets/sounds/mp3Osama/attacking with glasses.mp3" type="AudioStream" id=15]
+[ext_resource path="res://assets/sounds/mp3Osama/attacking with laptop.mp3" type="AudioStream" id=16]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10, 71.0438 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 14.4633, 69.6474 )
+
+[sub_resource type="SpriteFrames" id=3]
+animations = [ {
+"frames": [ ExtResource( 1 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "move",
+"speed": 6.0
+}, {
+"frames": [ ExtResource( 6 ) ],
+"loop": true,
+"name": "jump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 8 ) ],
+"loop": true,
+"name": "attackTwo",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 7 ) ],
+"loop": true,
+"name": "attackOne",
+"speed": 1.0
+} ]
+
+[node name="player" type="KinematicBody2D"]
+script = ExtResource( 9 )
+
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2( 2, 1 )
+collision_mask = 721
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -2.66968, 0 )
+shape = SubResource( 2 )
+
+[node name="LifeBar" parent="." instance=ExtResource( 10 )]
+margin_left = -35.492
+margin_top = -84.757
+margin_right = 34.508
+margin_bottom = -71.757
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( -2.57242, 4.06516 )
+scale = Vector2( 0.503582, 0.911517 )
+frames = SubResource( 3 )
+animation = "idle"
+
+[node name="bull" type="Position2D" parent="."]
+position = Vector2( 42.2218, -16.9706 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 1280
+limit_bottom = 720
+editor_draw_limits = true
+
+[node name="lap" type="Position2D" parent="."]
+position = Vector2( 25, -25 )
+scale = Vector2( -70.2742, -452.851 )
+
+[node name="jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 12 )
+
+[node name="move" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 13 )
+volume_db = -3.0
+
+[node name="damage" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 14 )
+
+[node name="glass" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 15 )
+volume_db = 5.0
+attenuation = -5.0
+
+[node name="laptop" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 16 )
+attenuation = -1.0
+
+[node name="dying" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 11 )
+
+[node name="dying_time_freez" type="Timer" parent="."]
+wait_time = 5.0
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
+[connection signal="finished" from="jump" to="." method="_on_jump_finished"]
+[connection signal="timeout" from="dying_time_freez" to="." method="_on_dying_time_freez_timeout"]

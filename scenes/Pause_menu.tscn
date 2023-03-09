@@ -1,0 +1,87 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/theme/fonts/kenney_mini_square.tres" type="DynamicFontData" id=1]
+[ext_resource path="res://scripts/Pause_menu.gd" type="Script" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 120
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 64
+font_data = ExtResource( 1 )
+
+[node name="Pause_menu" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 306.0
+margin_bottom = 252.0
+color = Color( 0.211765, 0.184314, 0.184314, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="CanvasLayer/ColorRect"]
+modulate = Color( 0.894118, 0.129412, 0.129412, 1 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -577.927
+margin_top = -17.2432
+margin_right = 392.073
+margin_bottom = 186.757
+custom_fonts/font = SubResource( 1 )
+text = "Pause menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="resume" type="Button" parent="CanvasLayer/ColorRect"]
+modulate = Color( 0.0470588, 0.784314, 0.0627451, 1 )
+margin_left = 491.088
+margin_top = 251.949
+margin_right = 751.088
+margin_bottom = 337.949
+custom_fonts/font = SubResource( 2 )
+text = "Resume"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="restart" type="Button" parent="CanvasLayer/ColorRect"]
+modulate = Color( 0.0588235, 0.0470588, 0.784314, 1 )
+margin_left = 495.088
+margin_top = 367.949
+margin_right = 755.088
+margin_bottom = 453.949
+custom_fonts/font = SubResource( 2 )
+text = "RESTART"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="quit" type="Button" parent="CanvasLayer/ColorRect"]
+modulate = Color( 0.827451, 0.901961, 0.321569, 1 )
+margin_left = 498.508
+margin_top = 485.649
+margin_right = 758.508
+margin_bottom = 571.649
+custom_fonts/font = SubResource( 2 )
+text = "Quit"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="CanvasLayer/ColorRect/resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="CanvasLayer/ColorRect/restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="CanvasLayer/ColorRect/quit" to="." method="_on_quit_pressed"]
